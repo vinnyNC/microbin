@@ -94,8 +94,8 @@ pub async fn create(
         file: None,
         extension: String::from(""),
         private: false,
-        readonly: false,
-        editable: ARGS.editable,
+        readonly: true,
+        editable: false,
         encrypt_server: false,
         encrypted_key: Some(String::from("")),
         encrypt_client: false,
@@ -140,11 +140,16 @@ pub async fn create(
                         "readonly" => true,
                         _ => false,
                     };
+                    new_pasta.editable = match privacy {
+                        "public" => true,
+                        _ => false,
+                    };
                     new_pasta.encrypt_client = match privacy {
                         "secret" => true,
                         _ => false,
                     };
                     new_pasta.encrypt_server = match privacy {
+                        "public" => true,
                         "private" => true,
                         "secret" => true,
                         _ => false,
